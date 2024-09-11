@@ -1,0 +1,45 @@
+# Prefect Flow Deployment Configuration for MongoDB Connection and Data Extraction
+# 
+# This YAML file defines the deployment details for a Prefect flow that connects to MongoDB and extracts data. 
+# It contains two configurations: 
+# 1. A daily scheduled deployment using a cron expression that runs the flow at 9 AM every day.
+# 2. An interval-based schedule that runs the flow every 3 minutes (180 seconds).
+# 
+# - `flow_name`: The name of the flow being deployed.
+# - `entrypoint`: Specifies the Python module and flow function to execute.
+# - `schedule`: Determines when the flow is triggered (cron-based for daily execution or interval-based for periodic execution).
+# - `work_queue_name` and `work_pool`: Configure the execution environment, including worker pools and queues.
+# - `storage`: Defines where the flow's script is located on the local filesystem.
+
+flow_name: mongo_connection_and_extraction_flow
+name: mongo-flow-deployment
+entrypoint: mongo_flow.py:mongo_connection_and_extraction_flow # Path to your flow
+schedule:
+  cron: "0 9 * * *" # Cron schedule, runs every day at 9 AM
+  timezone: "Asia/Karachi" # Timezone for the schedule
+work_queue_name: default # Work queue to be used
+
+
+flow_name: mongo_connection_and_extraction_flow
+name: mongo-flow-deployment
+entrypoint: mongo_flow.py:mongo_connection_and_extraction_flow # Path to your flow
+
+# Pre-configured schedule using cron or interval
+schedule:
+  interval:
+    seconds: 180  # Runs every 180 seconds (3 minutes)
+  timezone: "Asia/Karachi"  # Optional timezone adjustment
+
+# Work pool configuration
+work_pool:
+  name: mongo_work_pool
+  type: process  # Use 'process' as the execution type
+
+work_queue_name: default 
+
+storage:
+  local:
+    """
+    Replace with your path
+    """
+    path: /Users/yourflow/prefect_demo/test_flow.py  # Flow script path
