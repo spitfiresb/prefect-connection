@@ -17,15 +17,15 @@ from data_processor import DataProcessor
 
 @task
 def verify_mongo_connection():
-    connection_string = "mongodb+srv://iqbalrohail398:BKrzT0RPvDiG4MRR@cluster0.9hsdkc6.mongodb.net/"
+    connection_string = "./"
     mongo_connection = MongoDBConnection(connection_string)
     mongo_connection.verify_connection()
 
 
 @task
 def extract_data_from_mongo():
-    connection_string = "mongodb+srv://iqbalrohail398:BKrzT0RPvDiG4MRR@cluster0.9hsdkc6.mongodb.net/"
-    data_extractor = DataExtractor(connection_string, "conversation-manager_db", "CustomerTopicEvents")
+    connection_string = "./"
+    data_extractor = DataExtractor(connection_string, "database_name", "collection_name")
     return data_extractor.extract_data()
 
 
