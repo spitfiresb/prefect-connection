@@ -5,6 +5,11 @@ data extraction, and data processing tasks. It imports functionality from other 
 """
 
 from prefect import flow, task
+
+# from prefect.deployments import Deployment
+from prefect.server.schemas.schedules import IntervalSchedule, CronSchedule
+import pendulum
+from datetime import timedelta
 from mongodb_connection import MongoDBConnection
 from data_extractor import DataExtractor
 from data_processor import DataProcessor
@@ -12,21 +17,15 @@ from data_processor import DataProcessor
 
 @task
 def verify_mongo_connection():
-    connection_string = (
-        "your_connection_string"
-    )
+    connection_string = "mongodb+srv://iqbalrohail398:BKrzT0RPvDiG4MRR@cluster0.9hsdkc6.mongodb.net/"
     mongo_connection = MongoDBConnection(connection_string)
     mongo_connection.verify_connection()
 
 
 @task
 def extract_data_from_mongo():
-    connection_string = (
-        "your_connection_string"
-    )
-    data_extractor = DataExtractor(
-        connection_string, "database_name", "collection_name"
-    )
+    connection_string = "mongodb+srv://iqbalrohail398:BKrzT0RPvDiG4MRR@cluster0.9hsdkc6.mongodb.net/"
+    data_extractor = DataExtractor(connection_string, "conversation-manager_db", "CustomerTopicEvents")
     return data_extractor.extract_data()
 
 
@@ -43,6 +42,5 @@ def mongo_connection_and_extraction_flow():
     process_data(extracted_data)
 
 
-# To run the flow
 if __name__ == "__main__":
     mongo_connection_and_extraction_flow()

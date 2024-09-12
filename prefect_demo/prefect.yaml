@@ -1,0 +1,44 @@
+# Deployment Configuration for MongoDB Connection and Data Extraction
+
+deployments:
+  - name: mongo-flow-deployment
+    entrypoint: mongo_flow.py:mongo_connection_and_extraction_flow
+    schedules:
+      - cron: "15 08 * * *" # Runs at 3:10 PM
+        timezone: "America/Los_Angeles" # California time (PST/PDT)
+        start_time: "2024-09-11T08:15:00-07:00" # Start time in ISO 8601 format
+        end_time: "2024-09-11T08:20:00-07:00" # End time in ISO 8601 format
+      - interval: 180 # Runs every 180 seconds (3 minutes)
+    work_pool:
+      name: mongo_work_pool
+      type: process # Use 'process' as the execution type
+    work_queue_name: default
+    storage:
+      local:
+        path: /Users/zainsaeed/Desktop/airflow/dags/prefect_demo/mongo_flow.py # Flow script path
+
+# How to run this:
+# Need to create
+# prefect deploy --all
+# prefect worker start --pool "mongo_work_pool"
+
+# Deployment Configuration for MongoDB Connection and Data Extraction
+
+# deployments:
+#   - name: mongo-flow-deployment
+#     entrypoint: mongo_flow.py:mongo_connection_and_extraction_flow
+#     schedules:
+#       - cron: "10 15 * * *" # Runs at 3:10 PM (timezone will be handled in your Prefect environment settings)
+#       - interval: 180 # Runs every 180 seconds (3 minutes)
+#     work_pool:
+#       name: mongo_work_pool
+#       type: process # Use 'process' as the execution type
+#     work_queue_name: default
+#     storage:
+#       local:
+#         path: /Users/zainsaeed/Desktop/airflow/dags/prefect_demo/mongo_flow.py # Flow script path
+
+# How to run this:
+# Need to create
+# prefect deploy --all
+# prefect worker start --pool "mongo_work_pool"
